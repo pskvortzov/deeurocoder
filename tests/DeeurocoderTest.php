@@ -6,14 +6,14 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
 {
     private $deeurocoder;
 
-    function __construct()
+    public function __construct()
     {
         $this->deeurocoder = new Deeurocoder;
     }
 
     /**
     / @test
-    */
+     */
     public function it_exists()
     {
         $this->assertInstanceOf('Autohelp\Deeurocoder', $this->deeurocoder);
@@ -21,7 +21,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
 
     /**
     / @test
-    */
+     */
     public function it_correctly_identifies_basic_eurocodes()
     {
 
@@ -50,7 +50,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
 
     /**
     / @test
-    */
+     */
     public function it_correctly_identifies_category()
     {
         $this->assertEquals(1, $this->deeurocoder->getCategory('2005AABBLABCDEF2G3A6N1085-KMK qwe'));
@@ -72,7 +72,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
 
     /**
     / @test
-    */
+     */
     public function it_correctly_parses_brand_and_comment()
     {
         $this->assertEquals('KMK', $this->deeurocoder->getBrand('4437AGSBLV-KMK'));
@@ -102,7 +102,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
 
     /**
     / @test
-    */
+     */
     public function it_correctly_parses_manufacturer_and_model()
     {
 
@@ -119,7 +119,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
 
     /**
     / @test
-    */
+     */
     public function it_correctly_parses_windshield_parts()
     {
         $this->assertEquals(['A'], array_keys($this->deeurocoder->getGlassType('4437AGN')));
@@ -180,7 +180,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
 
     /**
     / @test
-    */
+     */
     public function it_correctly_parses_rear_glass_parts()
     {
         $this->assertEquals(['B'], array_keys($this->deeurocoder->getGlassType('4437BGN')));
@@ -221,7 +221,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
 
     /**
     / @test
-    */
+     */
     public function it_correctly_parses_bodyglass_parts()
     {
         $this->assertEquals(['F'], array_keys($this->deeurocoder->getGlassType('4437FAB')));
@@ -275,7 +275,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
 
     /**
     / @test
-    */
+     */
     public function it_correctly_parses_glass_roof_parts()
     {
         $this->assertEquals(['G'], array_keys($this->deeurocoder->getGlassType('4437GBA')));
@@ -329,7 +329,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
 
     /**
     / @test
-    */
+     */
     public function it_correctly_parses_sk_accessories_parts()
     {
         $this->assertEquals(['A'], array_keys($this->deeurocoder->getGlassType('4437AKA')));
@@ -389,7 +389,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
 
     /**
     / @test
-    */
+     */
     public function it_correctly_parses_x_accessories_parts()
     {
         $this->assertEquals(['A'], array_keys($this->deeurocoder->getGlassType('4437AXA')));
@@ -447,4 +447,13 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->deeurocoder->isEurocode('4437FXACFVMWY2G3L'));
     }
 
+    /**
+    / @test
+     */
+    public function it_constructs_html_string_with_parsed_parts_of_the_eurocode()
+    {
+        $this->assertEquals("<span title='FORD FOCUS II 04-10'>3566</span><span title='Windscreen'>A</span><span title='Green'>GN</span><span title='Blue top tint'>BL</span><span title='Vin Notch'>V</span><span title='Hardware used for the fitting of glass'>W</span><span title='Logo indentifying security and safety features and change to Silkscreen'>1R</span>", $this->deeurocoder->getHtmlString('3566AGNBLVW1R'));
+        $this->assertEquals("<span title='TOYOTA COROLLA 4D SAL 07-13'>8376</span><span title='Bodyglass-right'>R</span><span title='Green - Solar control'>GS</span><span title='Saloon/sedan 4 doors'>S4</span><span title='Front door'>FD</span><span title='Hardware used for the fitting of glass'>W</span>", $this->deeurocoder->getHtmlString('8376RGSS4FDW'));
+        $this->assertEquals("<span title='BMW X5 (E70) 06-13'>2452</span><span title='Windscreen'>A</span><span title='Clear with coating'>CC</span><span title='Grey top tint'>GY</span><span title='Sensor (light and/or moisture) or fittings'>M</span><span title='Vin Notch'>V</span><span title='Change to sensor'>1T</span>", $this->deeurocoder->getHtmlString('2452ACCGYMV1T'));
+    }
 }
