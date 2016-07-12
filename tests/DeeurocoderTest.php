@@ -1,6 +1,7 @@
 <?php
 
 use Autohelp\Deeurocoder;
+use Autohelp\Exceptions\TranslationFileNotFound;
 
 class DeeurocoderTest extends PHPUnit_Framework_TestCase
 {
@@ -12,7 +13,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-    / @test
+     * @test
      */
     public function it_exists()
     {
@@ -20,7 +21,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-    / @test
+     * @test
      */
     public function it_correctly_identifies_basic_eurocodes()
     {
@@ -71,7 +72,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-    / @test
+     * @test
      */
     public function it_correctly_parses_brand_and_comment()
     {
@@ -101,7 +102,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-    / @test
+     * @test
      */
     public function it_correctly_parses_manufacturer_and_model()
     {
@@ -179,7 +180,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-    / @test
+     * @test
      */
     public function it_correctly_parses_rear_glass_parts()
     {
@@ -220,7 +221,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-    / @test
+     * @test
      */
     public function it_correctly_parses_bodyglass_parts()
     {
@@ -274,7 +275,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-    / @test
+     * @test
      */
     public function it_correctly_parses_glass_roof_parts()
     {
@@ -328,7 +329,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-    / @test
+     * @test
      */
     public function it_correctly_parses_sk_accessories_parts()
     {
@@ -388,7 +389,7 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-    / @test
+     * @test
      */
     public function it_correctly_parses_x_accessories_parts()
     {
@@ -448,12 +449,33 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-    / @test
+     * @test
      */
     public function it_constructs_html_string_with_parsed_parts_of_the_eurocode()
     {
         $this->assertEquals("<span title='FORD FOCUS II 04-10'>3566</span><span title='Windscreen'>A</span><span title='Green'>GN</span><span title='Blue top tint'>BL</span><span title='Vin Notch'>V</span><span title='Hardware used for the fitting of glass'>W</span><span title='Logo indentifying security and safety features and change to Silkscreen'>1R</span>", $this->deeurocoder->getHtmlString('3566AGNBLVW1R'));
         $this->assertEquals("<span title='TOYOTA COROLLA 4D SAL 07-13'>8376</span><span title='Bodyglass-right'>R</span><span title='Green - Solar control'>GS</span><span title='Saloon/sedan 4 doors'>S4</span><span title='Front door'>FD</span><span title='Hardware used for the fitting of glass'>W</span>", $this->deeurocoder->getHtmlString('8376RGSS4FDW'));
         $this->assertEquals("<span title='BMW X5 (E70) 06-13'>2452</span><span title='Windscreen'>A</span><span title='Clear with coating'>CC</span><span title='Grey top tint'>GY</span><span title='Sensor (light and/or moisture) or fittings'>M</span><span title='Vin Notch'>V</span><span title='Change to sensor'>1T</span>", $this->deeurocoder->getHtmlString('2452ACCGYMV1T'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_translates_description()
+    {
+        $deeurocoderRus = new Deeurocoder('ru');
+
+        $this->assertEquals(['A' => 'Лобовое стекло'], $deeurocoderRus->getGlassType('4437AGN'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_an_error_if_the_translation_file_is_not_found()
+    {
+        $this->expectException(TranslationFileNotFound::class);
+
+        $deeurocoderRus = new Deeurocoder('tr');
+
     }
 }
