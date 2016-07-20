@@ -31,7 +31,7 @@ return [
     'Light green (Japanese)' => '',
     'Grey + acoustic' => '',
     'Grey coated' => '',
-    'Blue top tint' => '',
+    'Blue top tint' => 'С синей полосой',
     'Bronze top tint' => '',
     'Green top tint' => '',
     'Grey top tint' => '',

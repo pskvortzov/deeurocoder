@@ -220,11 +220,16 @@ class Deeurocoder
 
         foreach ($requiredProperties as $requiredProperty) {
             foreach ($properties[$requiredProperty] as $letterCode => $meaning) {
-                $stringParts[] = strtolower($meaning);
+                $stringParts[] = mb_strtolower($meaning);
             }
         }
 
-        return ucfirst(implode(', ', $stringParts));
+        $string = implode(', ', $stringParts);
+
+        $firstLetter = mb_substr($string, 0, 1);
+
+        return mb_strtoupper($firstLetter) . mb_substr($string, 1);
+
     }
 
     protected function constructHtml($properties)

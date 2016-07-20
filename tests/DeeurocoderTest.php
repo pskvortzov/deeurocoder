@@ -481,6 +481,16 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_constructs_a_translated_string_with_parsed_parts_of_the_eurocode()
+    {
+        $deeurocoderRus = new Deeurocoder('ru');
+
+        $this->assertEquals("Лобовое стекло, зеленое, с синей полосой", $deeurocoderRus->getString('3566AGNBL'));
+    }
+
+    /**
+     * @test
+     */
     public function it_throws_an_error_if_the_translation_file_is_not_found()
     {
         $this->expectException(TranslationFileNotFound::class);
