@@ -451,6 +451,16 @@ class DeeurocoderTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_constructs_a_string_with_parsed_parts_of_the_eurocode()
+    {
+        $this->assertEquals("Windscreen, green, blue top tint, vin notch, hardware used for the fitting of glass, logo indentifying security and safety features and change to silkscreen", $this->deeurocoder->getString('3566AGNBLVW1R'));
+        $this->assertEquals("Bodyglass-right, green - solar control, saloon/sedan 4 doors, front door, hardware used for the fitting of glass", $this->deeurocoder->getString('8376RGSS4FDW'));
+        $this->assertEquals("Windscreen, clear with coating, grey top tint, sensor (light and/or moisture) or fittings, vin notch, change to sensor", $this->deeurocoder->getString('2452ACCGYMV1T'));
+    }
+
+    /**
+     * @test
+     */
     public function it_constructs_html_string_with_parsed_parts_of_the_eurocode()
     {
         $this->assertEquals("<span title='FORD FOCUS II 04-10'>3566</span><span title='Windscreen'>A</span><span title='Green'>GN</span><span title='Blue top tint'>BL</span><span title='Vin Notch'>V</span><span title='Hardware used for the fitting of glass'>W</span><span title='Logo indentifying security and safety features and change to Silkscreen'>1R</span>", $this->deeurocoder->getHtmlString('3566AGNBLVW1R'));

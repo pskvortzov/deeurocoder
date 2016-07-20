@@ -6,7 +6,7 @@ use Autohelp\Exceptions\TranslationFileNotFound;
 
 class Deeurocoder
 {
-    protected $validProperties = ['brand', 'category', 'comment', 'manufacturer', 'model', 'glassType', 'glassPosition', 'accessoryType', 'glassAccessories', 'glassTint', 'topTint', 'bodyType', 'characteristics', 'modifications'];
+    protected $validProperties = ['brand', 'category', 'comment', 'manufacturer', 'model', 'glassType', 'glassPosition', 'accessoryType', 'glassAccessories', 'glassTint', 'topTint', 'bodyType', 'characteristics', 'modifications', 'string', 'htmlString'];
     protected $isValidEurocode = false;
     protected $eurocode;
     protected $category;
@@ -57,11 +57,6 @@ class Deeurocoder
         return $this->parseEurocode($eurocode);
     }
 
-    public function getHtmlString($eurocode)
-    {
-        return $this->get($eurocode, 'htmlString');
-    }
-
     // converts all calls to $this->getAnyProperty($eurocode) to $this->get($eurocode, 'anyProperty')
     public function __call($name, $args)
     {
@@ -104,6 +99,7 @@ class Deeurocoder
             'glassPosition' => [],
             'characteristics' => [],
             'modifications' => [],
+            'string' => '',
             'htmlString' => '',
         ];
 
@@ -121,6 +117,7 @@ class Deeurocoder
             $properties['manufacturer'] = $this->getName($properties['carType'], 0);
             $properties['model'] = $this->getName($properties['carType'], 1);
 
+            $properties['string'] = $this->constructString($properties);
             $properties['htmlString'] = $this->constructHtml($properties);
         }
 
@@ -213,6 +210,21 @@ class Deeurocoder
         }
 
         return null;
+    }
+
+    protected function constructString($properties)
+    {
+        $stringParts = [];
+
+        $requiredProperties = ['glassType', 'glassAccessories', 'accessoryType', 'glassTint', 'topTint', 'bodyType', 'glassPosition', 'characteristics', 'modifications'];
+
+        foreach ($requiredProperties as $requiredProperty) {
+            foreach ($properties[$requiredProperty] as $letterCode => $meaning) {
+                $stringParts[] = strtolower($meaning);
+            }
+        }
+
+        return ucfirst(implode(', ', $stringParts));
     }
 
     protected function constructHtml($properties)
