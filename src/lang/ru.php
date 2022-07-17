@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'Windscreen' => 'Лобовое',
+    'Windscreen' => 'Лобовое стекло',
     'Alternative windscreen' => 'Альтернативное лобовое',
     'Windscreen with accessories in pack' => 'Лобовое в сборе',
     'Anti-bandit clear (5-ply)' => 'Прозрачное противоударное (5 слоев)',
